@@ -1,0 +1,8 @@
+﻿@model CreateViewModel
+
+    <form asp-controller="Page" asp-action="Create" method="post" enctype="multipart/form-data">
+
+        <input asp-for="CompanyName" />
+        <input type="file" asp-for="Logo" />
+        <input type="submit" />
+    </form>

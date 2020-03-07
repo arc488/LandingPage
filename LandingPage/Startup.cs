@@ -2,9 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Landingly.Config;
+using Landingly.Data.IRepositories;
+using Landingly.Data.Repositories;
+using LandingPage.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +30,13 @@ namespace LandingPage
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<AppDbContext>(options => options
+                                                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                                                .EnableSensitiveDataLogging(true));
+            services.AddScoped<IPageRepository, PageRepository>();
+
+            var autoMapper = new MapperConfiguration(mc => mc.AddProfile(new AutoMapperProfile()));
+            services.AddSingleton(autoMapper.CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
