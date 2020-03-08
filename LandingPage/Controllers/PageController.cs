@@ -28,13 +28,20 @@ namespace Landingly.Controllers
             return View();
         }
 
-        public IActionResult Create(CreateViewModel viewModel, IFormFile logoImage)
+        public IActionResult Create()
+        {
+            var viewModel = new CreateViewModel();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateViewModel viewModel, IFormFile file)
         {
             var page = this.mapper.Map<CreateViewModel, Page>(viewModel);
 
             using (var ms = new MemoryStream())
             {
-                logoImage.CopyTo(ms);
+                file.CopyTo(ms);
                 page.Logo = ms.ToArray();
             };
 

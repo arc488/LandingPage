@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LandingPage.Migrations
+namespace Landingly.Migrations
 {
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace LandingPage.Migrations
                 {
                     LandingPageId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Logo = table.Column<string>(nullable: true),
+                    Logo = table.Column<byte[]>(nullable: true),
                     CompanyName = table.Column<string>(nullable: true),
                     LandingPageURL = table.Column<string>(nullable: true)
                 },
