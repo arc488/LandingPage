@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Landingly.Data.IRepositories;
@@ -56,5 +58,28 @@ namespace Landingly.Controllers
             var viewModel = this.mapper.Map<Page, DetailViewModel>(page);
             return View(viewModel);
         }
+
+        [HttpGet("/page/upload")]
+        public IActionResult Upload()
+        {
+            return View();
+        }
+
+        [HttpPost("/page/upload")]
+        public IActionResult UploadVideo()
+        {
+            //filename is current time stripped of all non numbers
+            var fileName = Regex.Replace(DateTime.Now.ToString(), "[^0-9]", "") + ".webm";
+
+            var file = Request.Form.Files[0];
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\videos", fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+
+            }
+            return View("Upload");
+        }
+
     }
 }

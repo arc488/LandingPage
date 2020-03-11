@@ -1,0 +1,23 @@
+﻿<div>
+    <div id="container">
+
+        <video id="gum" playsinline autoplay></video>
+        <video id="recorded" playsinline loop></video>
+
+        <div>
+            <button id="start">Start camera</button>
+            <button id="record" disabled>Start Recording</button>
+            <button id="play" disabled>Play</button>
+            <button id="upload" disabled>Upload</button>
+        </div>
+
+        <div>
+            <span id="errorMsg"></span>
+        </div>
+
+    </div>
+
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="~/scripts/Video.js" async></script>
+
+</div>
