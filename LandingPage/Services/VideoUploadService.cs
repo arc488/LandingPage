@@ -67,7 +67,7 @@ namespace Landingly.Services
             video.Snippet.CategoryId = "22"; // See https://developers.google.com/youtube/v3/docs/videoCategories/list
             video.Status = new VideoStatus();
             video.Status.PrivacyStatus = "unlisted"; // or "private" or "public"
-            var path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\videos", fileName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), @"\videos", fileName);
             var filePath = path; // Replace with path to actual movie file.
 
             using (var fileStream = new FileStream(filePath, FileMode.Open))
