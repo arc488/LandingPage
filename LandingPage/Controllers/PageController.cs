@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Landingly.Data.IRepositories;
+using Landingly.Services;
 using LandingPage.Models;
 using LandingPage.ViewModels.LandingPage;
 using Microsoft.AspNetCore.Http;
@@ -17,11 +18,13 @@ namespace Landingly.Controllers
     public class PageController : Controller
     {
         private readonly IPageRepository pageRepository;
+        private readonly VideoUploadService uploadService;
         private readonly IMapper mapper;
 
-        public PageController(IPageRepository pageRepository, IMapper mapper)
+        public PageController(IPageRepository pageRepository, VideoUploadService uploadService, IMapper mapper)
         {
             this.pageRepository = pageRepository;
+            this.uploadService = uploadService;
             this.mapper = mapper;
         }
 
@@ -78,7 +81,14 @@ namespace Landingly.Controllers
                 file.CopyTo(stream);
 
             }
+            UploadToYoutube(fileName);
             return View("Upload");
+        }
+
+        public void UploadToYoutube(string fileName)
+        {
+            this.uploadService.Run(fileName).Wait();
+            
         }
 
     }

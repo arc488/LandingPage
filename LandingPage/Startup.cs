@@ -6,6 +6,7 @@ using AutoMapper;
 using Landingly.Config;
 using Landingly.Data.IRepositories;
 using Landingly.Data.Repositories;
+using Landingly.Services;
 using LandingPage.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,7 @@ namespace LandingPage
                                                 .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                                                 .EnableSensitiveDataLogging(true));
             services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<VideoUploadService>();
 
             var autoMapper = new MapperConfiguration(mc => mc.AddProfile(new AutoMapperProfile()));
             services.AddSingleton(autoMapper.CreateMapper());

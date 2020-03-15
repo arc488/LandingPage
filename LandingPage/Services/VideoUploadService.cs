@@ -16,29 +16,29 @@ namespace Landingly.Services
     public class VideoUploadService
     {
 
-        [STAThread]
-        static void VideoUploadMain(string[] args)
-        {
-            Console.WriteLine("YouTube Data API: Upload Video");
-            Console.WriteLine("==============================");
+        //[STAThread]
+        //static void VideoUploadMain(string[] args)
+        //{
+        //    Console.WriteLine("YouTube Data API: Upload Video");
+        //    Console.WriteLine("==============================");
 
-            try
-            {
-                new VideoUploadService().Run().Wait();
-            }
-            catch (AggregateException ex)
-            {
-                foreach (var e in ex.InnerExceptions)
-                {
-                    Console.WriteLine("Error: " + e.Message);
-                }
-            }
+        //    try
+        //    {
+        //        new VideoUploadService().Run().Wait();
+        //    }
+        //    catch (AggregateException ex)
+        //    {
+        //        foreach (var e in ex.InnerExceptions)
+        //        {
+        //            Console.WriteLine("Error: " + e.Message);
+        //        }
+        //    }
 
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
+        //    Console.WriteLine("Press any key to continue...");
+        //    Console.ReadKey();
+        //}
 
-        private async Task Run()
+        public async Task Run(string fileName)
         {
             UserCredential credential;
             using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
@@ -61,13 +61,14 @@ namespace Landingly.Services
 
             var video = new Video();
             video.Snippet = new VideoSnippet();
-            video.Snippet.Title = "Default Video Title";
-            video.Snippet.Description = "Default Video Description";
+            video.Snippet.Title = fileName;
+            video.Snippet.Description = "Landingly video " + fileName;
             video.Snippet.Tags = new string[] { "tag1", "tag2" };
             video.Snippet.CategoryId = "22"; // See https://developers.google.com/youtube/v3/docs/videoCategories/list
             video.Status = new VideoStatus();
             video.Status.PrivacyStatus = "unlisted"; // or "private" or "public"
-            var filePath = @"REPLACE_ME.mp4"; // Replace with path to actual movie file.
+            var path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\videos", fileName);
+            var filePath = path; // Replace with path to actual movie file.
 
             using (var fileStream = new FileStream(filePath, FileMode.Open))
             {
