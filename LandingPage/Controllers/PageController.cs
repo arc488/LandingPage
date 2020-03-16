@@ -75,7 +75,7 @@ namespace Landingly.Controllers
             var fileName = Regex.Replace(DateTime.Now.ToString(), "[^0-9]", "") + ".webm";
 
             var file = Request.Form.Files[0];
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\videos", fileName);
+            var filePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), fileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 file.CopyTo(stream);
