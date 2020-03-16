@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
@@ -66,8 +67,8 @@ namespace Landingly.Services
             video.Snippet.Tags = new string[] { "tag1", "tag2" };
             video.Snippet.CategoryId = "22"; // See https://developers.google.com/youtube/v3/docs/videoCategories/list
             video.Status = new VideoStatus();
-            video.Status.PrivacyStatus = "unlisted"; // or "private" or "public"
-            var path = Path.Combine(Directory.GetCurrentDirectory(), @"\videos", fileName);
+            video.Status.PrivacyStatus = "public"; // or "private" or "public"
+            var path = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\videos", fileName);
             var filePath = path; // Replace with path to actual movie file.
 
             using (var fileStream = new FileStream(filePath, FileMode.Open))
@@ -85,10 +86,12 @@ namespace Landingly.Services
             switch (progress.Status)
             {
                 case UploadStatus.Uploading:
+                    Debug.WriteLine("{0} bytes sent.", progress.BytesSent);
                     Console.WriteLine("{0} bytes sent.", progress.BytesSent);
                     break;
 
                 case UploadStatus.Failed:
+                    Debug.WriteLine("An error prevented the upload from completing.\n{0}", progress.Exception);
                     Console.WriteLine("An error prevented the upload from completing.\n{0}", progress.Exception);
                     break;
             }
