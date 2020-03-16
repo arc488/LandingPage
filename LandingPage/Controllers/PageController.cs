@@ -76,6 +76,7 @@ namespace Landingly.Controllers
 
             var file = Request.Form.Files[0];
             var filePath = Path.Combine(Environment.GetEnvironmentVariable("TEMP"), fileName);
+            Debug.WriteLine("Temp filepath is: " + filePath);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 file.CopyTo(stream);
